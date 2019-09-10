@@ -280,6 +280,7 @@ resource "azurerm_network_interface" "vm" {
   name                          = "nic-${var.vm_hostname}-${count.index}"
   location                      = "${azurerm_resource_group.vm.location}"
   resource_group_name           = "${azurerm_resource_group.vm.name}"
+  network_security_group_id     = "${azurerm_network_security_group.vm.id}"
   enable_accelerated_networking = "${var.enable_accelerated_networking}"
 
   ip_configuration {
@@ -290,9 +291,4 @@ resource "azurerm_network_interface" "vm" {
   }
 
   tags = "${var.tags}"
-}
-
-resource "azurerm_subnet_network_security_group_association" "vm" {
-  subnet_id                 = "${var.vnet_subnet_id}"
-  network_security_group_id = "${azurerm_network_security_group.vm.id}"
 }
